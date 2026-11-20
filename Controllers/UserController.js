@@ -32,12 +32,14 @@ exports.create = async (req, res, next) => {
     
     try {
 
-        const { nickName, password } = req.body;  //Extrae el nickName y del cuerpo de la solicitud
+        const { nickName, password, cargo, correo } = req.body;  //Extrae el nickName y demás parámetros del cuerpo de la solicitud
         const hashedPassword = bcrypt.hashSync(password, constants.SALT_ROUNDS.TEST);
-        console.log(hashedPassword);
+        console.log("Se ha hasheado la contraseña correctamente: "+hashedPassword);
         const params = {
             nickName,
-            password: hashedPassword              //Crea un objeto params con el nickName extraído
+            password: hashedPassword,
+            cargo,
+            correo             //Crea un objeto params con el nickName extraído
         };          
 
         const response = await userProvider.create(params); //Llama al método create del userProvider y espera su resultado

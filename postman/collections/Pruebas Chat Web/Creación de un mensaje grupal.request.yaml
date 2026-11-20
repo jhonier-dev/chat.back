@@ -1,0 +1,18 @@
+$kind: http-request
+description: ""
+url: http://localhost:5000/api/v1/message/create
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"message\": \"Soy el príncipe prometido!\",\r
+
+    \    \"nickName\": \"Rhaenyra\",\r
+
+    \    \"recipientNickName\": null,\r
+
+    \    \"groupName\": \"Casa Targaryen\"\r
+
+    }"
+order: 1000

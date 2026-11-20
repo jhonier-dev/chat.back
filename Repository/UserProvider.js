@@ -2,11 +2,13 @@ const constants = require('../Utils/constants.js');
 let pool = require('./DataBaseConnection.js');
 
 function valida(plist) {
+  console.log("Validando lista.");
   let res = true;
   for (let index = 0; index < plist.length; index++) {
     const element = plist[index];
     if (element == null || element == undefined) { 
       res = false; 
+      console.log("Se produjo un error");
       break; }
   }
   return res;
@@ -22,7 +24,6 @@ exports.findUserByNickName = async (nickName) => {
         console.log("Se produjo un error: "+err)
       } else {
         resolve(results[0][0]);
-        console.log("Los resultados de la búsqueda: "+results[0][0])
       }
     });
   });
@@ -30,22 +31,22 @@ exports.findUserByNickName = async (nickName) => {
 
 exports.create = async (params) => {
   return new Promise((resolve, reject) => {
-    const { nickName, password } = params;
-    let data = [nickName, password];
+    const { nickName, password, cargo, correo } = params;
+    let data = [nickName, password, cargo, correo];
 
     if (!valida(data)) {
-      reject({
+      return reject({
         status: constants.STATUSES.ERROR,
         msg: 'Invalid data'
       });
     }
 
-    let sql = `CALL SP_User_I(?,?)`;
+    let sql = `CALL SP_User_I(?,?,?,?)`;
     pool.query(sql, data, (err, results, fields) => {
       if (err) {
         reject({
           status: constants.STATUSES.ERROR,
-          msg: err
+          msg: err.message
         });
 
         console.log("Error en /user/create:", err);
