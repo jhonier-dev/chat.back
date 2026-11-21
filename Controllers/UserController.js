@@ -33,8 +33,7 @@ exports.create = async (req, res, next) => {
     try {
 
         const { nickName, password, cargo, correo } = req.body;  //Extrae el nickName y demás parámetros del cuerpo de la solicitud
-        const hashedPassword = bcrypt.hashSync(password, constants.SALT_ROUNDS.TEST);
-        console.log("Se ha hasheado la contraseña correctamente: "+hashedPassword);
+        const hashedPassword = bcrypt.hashSync(password, constants.SALT_ROUNDS.PRODUCTION);
         const params = {
             nickName,
             password: hashedPassword,
@@ -42,9 +41,14 @@ exports.create = async (req, res, next) => {
             correo             //Crea un objeto params con el nickName extraído
         };          
 
-        const response = await userProvider.create(params); //Llama al método create del userProvider y espera su resultado
-        return res.status(200).json(response); //Si la operación es exitosa, devuelve una respuesta con estado 200 y el resultado en formato JSON
-        
+        //const response = await userProvider.create(params); //Llama al método create del userProvider y espera su resultado
+        //return res.status(200).json(response); //Si la operación es exitosa, devuelve una respuesta con estado 200 y el resultado en formato JSON
+        const response = await userProvider.create(params);
+        if (response.data) {
+            response.data = response.data.map(({ userPassword, ...user }) => user);
+        }
+        return res.status(200).json(response);
+
     } catch (error) {
         return res.status(500).json({
             msg: error.message,     //Si ocurre un error, captura el error y devuelve una respuesta con estado 500 y el mensaje del error

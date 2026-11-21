@@ -1,14 +1,9 @@
 $kind: http-request
 description: ""
-url: http://localhost:5000/api/v1/security/login
+url: https://chat-back-1081.onrender.com/api/v1/security/login
 method: POST
 body:
-  type: json
-  content: "{\r
-
-    \    \"nickName\": \"Viserys\",\r
-
-    \    \"password\": \"12345\"\r
-
-    }"
+  type: graphql
+  content:
+    query: ""
 order: 5000
