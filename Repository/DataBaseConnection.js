@@ -1,5 +1,5 @@
 require('dotenv').config();
-const mysql = require('mysql');
+const mysql = require('mysql2');
 
 const configconnection = {
     host: process.env.DB_HOST,
@@ -13,7 +13,5 @@ const configconnection = {
 };
 
 const pool = mysql.createPool(configconnection);
-   
-module.exports = pool;
 
- 
+module.exports = pool;
