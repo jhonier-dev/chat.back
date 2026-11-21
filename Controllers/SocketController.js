@@ -9,14 +9,11 @@ function handleConnection(io) {
     //Aqui agrega a la lista los usuarios que se conectan
     socket.on('joinChat', async (nickName) => {
 
-      nickName = nickName?.trim();
-      console.log("Al Socket llega el usuario normalizado:", JSON.stringify(nickName));
-      
       //Primero buscamos al usuario por su nickName directamente en la base de datos, lo agregamos al arreglo y lo lanzamos al frontend
       const result = await userProvider.findUserByNickName(nickName);
       users.push({ 
         id: socket.id, 
-        nickName: result.nickName, 
+        nickName: result.nickName.trim(), 
         cargo: result.cargo, 
         correo: result.correo 
       });
