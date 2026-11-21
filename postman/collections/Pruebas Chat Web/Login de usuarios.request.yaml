@@ -3,7 +3,12 @@ description: ""
 url: https://chat-back-1081.onrender.com/api/v1/security/login
 method: POST
 body:
-  type: graphql
-  content:
-    query: ""
+  type: json
+  content: "{\r
+
+    \    \"nickName\": \"Rhaenys Targaryen\",\r
+
+    \    \"password\": \"12345\"\r
+
+    }"
 order: 5000
