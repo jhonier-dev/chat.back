@@ -5,7 +5,12 @@ const constants = require('../Utils/constants.js');
 
 exports.login = async (req, res) => {
     try {
-        const { nickName, password } = req.body;    
+        
+        const { password } = req.body;
+        const nickName = req.body.nickName?.trim();
+        if (!nickName) {
+            return res.status(400).json({ msg: 'Username is required.' });
+}
         const user = await userProvider.findUserByNickName(nickName);  
         
         if (!user)
@@ -32,7 +37,11 @@ exports.create = async (req, res, next) => {
     
     try {
 
-        const { nickName, password, cargo, correo } = req.body;  //Extrae el nickName y demás parámetros del cuerpo de la solicitud
+        const { password, cargo, correo } = req.body;
+        const nickName = req.body.nickName?.trim();  //Extrae el nickName y demás parámetros del cuerpo de la solicitud
+        if (!nickName) {
+            return res.status(400).json({ msg: 'Username is required.' });
+}
         const hashedPassword = bcrypt.hashSync(password, constants.SALT_ROUNDS.PRODUCTION);
         const params = {
             nickName,
